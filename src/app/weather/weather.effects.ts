@@ -8,7 +8,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
-import { Action,} from '@app/core';
+import { Action } from '@app/core';
 
 import {
   actionRetrieveWeatherSuccess,
@@ -16,8 +16,13 @@ import {
   RetrieveWeatherActionFail,
   actionWeatherFail,
   ACTION_KEYS,
-  actionWeatherSuccess2
+  actionWeatherSuccess2,
+  actionCloudnessSuccess
 } from './weather.reducer';
+import {
+  WeatherAxis
+} from './weather.model';
+
 import { WeatherService } from './weather.service';
 
 @Injectable()
@@ -28,6 +33,24 @@ export class WeatherEffects {
   ) {}
 
   @Effect({dispatch: false})
+  retrieveClowds(): Observable<RetrieveWeatherActionSuccess|RetrieveWeatherActionFail> {
+    return this.actions$
+      .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
+      .do(action => {
+        console.log('WEATHER_RETRIEVE, ACTION_KEYS.LAUNCH_REQUESTS', action);
+      })
+      .switchMap(action => {
+        return this.weatherService
+          .retrieveWeather(WeatherAxis.Clowdness)
+          .do(weather => console.log('***weather retrieved!!', weather))
+          .map(weather => actionCloudnessSuccess(weather))
+          .catch(err =>
+            Observable.of(actionWeatherFail('err'))
+          );
+      });
+  }
+
+  @Effect({dispatch: false})
   retrieveWeather(): Observable<RetrieveWeatherActionSuccess|RetrieveWeatherActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
@@ -36,7 +59,7 @@ export class WeatherEffects {
       })
       .switchMap(action => {
         return this.weatherService
-          .retrieveWeather(action.payload)
+          .retrieveWeather(WeatherAxis.SolarFlux)
           .do(weather => console.log('***weather retrieved!!', weather))
           .map(weather => actionWeatherSuccess2(weather))
           .catch(err =>

@@ -70,7 +70,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     });
 
    // todo uncomment to enable call
-   //  this.store.dispatch(actionRetrieveWeather2('foo'));
+     this.store.dispatch(actionRetrieveWeather2('foo'));
   }
 
   ngOnDestroy(): void {

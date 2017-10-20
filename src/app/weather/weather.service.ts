@@ -3,26 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { WeatherInfo } from './weather.reducer';
+import { WeatherInfo, WeatherAxis } from './weather.model';
 
-const API_URL = `http://api.planetos.com/v1/datasets/bom_access-g_global_40km/
-point?lon=24.7536&lat=59.4370&apikey=bcf346da22c74648981870b20fb722b7&var=av_ttl_cld&csv=true&count=50`;
+const API_URL = 'http://api.planetos.com/v1/datasets/bom_access-g_global_40km/point';
+const API_KEY = 'bcf346da22c74648981870b20fb722b7';
+const COORDS = { Lat : 59.4370, Lng: 24.7536 };
+const NUMBER_OF_ROWS = 50;
 
 @Injectable()
 export class WeatherService {
   constructor(private httpClient: HttpClient) {}
 
-  retrieveWeather(symbol: string): Observable<WeatherInfo[]> {
-    console.log('*****retrieve weather!');
-
+  retrieveWeather(axis: WeatherAxis): Observable<WeatherInfo[]> {
     return this.httpClient
-      .get(API_URL, { responseType: 'text' })
+      .get(`${API_URL}?lon=${COORDS.Lng}&lat=${COORDS.Lat}&apikey=${API_KEY}&var=${axis}&csv=true&count=${NUMBER_OF_ROWS}`, {
+          responseType: 'text'
+      })
       .map((res: string) => res.split('\n')
         .map((row: string) => row.split(','))
-        .map(row => {
-          return { time: row[3], sun: Number.parseFloat(row[4]) };
-        })
-      )
-      .do(payload => console.log('***weather payload', payload));
+        .map(row => ({ time: row[3], value: Number.parseFloat(row[4])}))
+      );
   }
 }
