@@ -21,7 +21,7 @@ export class PowerboardEffects {
 
   @Effect()
   requestPanelData(): Observable<RetrievePowerActionSuccess> {
-    return this.actions$.ofType(ACTION_KEYS.LAUNCH_REQUESTS/* SETTINGS_REQUEST_PANEL_DATA */)
+    return this.actions$.ofType(/*ACTION_KEYS.LAUNCH_REQUESTS  */SETTINGS_REQUEST_PANEL_DATA)
       .switchMap(action => {
         console.log('!!!!requestPanelData');
         return this.service.retrievePower()

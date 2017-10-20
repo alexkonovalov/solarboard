@@ -41,7 +41,7 @@ export class WeatherEffects {
       })
       .switchMap(action => {
         return this.weatherService
-          .retrieveWeather(WeatherAxis.Clowdness)
+          .retrieveWeatherMock(WeatherAxis.Clowdness)
           .do(weather => console.log('***weather retrieved!!', weather))
           .map(weather => actionCloudnessSuccess(weather))
           .catch(err =>
@@ -59,7 +59,7 @@ export class WeatherEffects {
       })
       .switchMap(action => {
         return this.weatherService
-          .retrieveWeather(WeatherAxis.SolarFlux)
+          .retrieveWeatherMock(WeatherAxis.SolarFlux)
           .do(weather => console.log('***weather retrieved!!', weather))
           .map(weather => actionWeatherSuccess2(weather))
           .catch(err =>

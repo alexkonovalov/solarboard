@@ -24,4 +24,14 @@ export class WeatherService {
         .map(row => ({ time: row[3], value: Number.parseFloat(row[4])}))
       );
   }
+
+  retrieveWeatherMock(axis: WeatherAxis): Observable<WeatherInfo[]> {
+      return Observable.of(axis === WeatherAxis.SolarFlux ? [
+          { time: '2017-10-20T12:00:00', value: 55.98222732543945 },
+          { time: '2017-10-20T15:00:00', value: 289.5745849609375 }] : [
+          { time: '2017-10-20T12:00:00', value: 0.98 },
+          { time: '2017-10-20T15:00:00', value: 0.22 }
+        ]
+      );
+  }
 }
