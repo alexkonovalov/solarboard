@@ -1,0 +1,107 @@
+@import 'styles-variables';
+
+$background: map-get($solarboard-theme, background);
+
+.background {
+  padding: 100px 0;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0.6;
+    background: url('../../../assets/slrb-about.jpg') no-repeat center top;
+    background-size: cover;
+    content: '';
+    z-index: 0;
+  }
+
+  .gradient {
+    &::before {
+      position: absolute;
+      top: 75%;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      content: '';
+      z-index: 0;
+      background: linear-gradient(
+        to bottom,
+        mat-color($background, background, 0) 0%,
+        mat-color($background, background, 1) 100%
+      );
+    }
+  }
+
+  .name {
+    text-align: center;
+    font-size: 3em;
+    text-transform: uppercase;
+  }
+
+  .links {
+    text-align: center;
+    z-index: 1;
+    margin: 10px 0 230px 0;
+ 
+    a {
+      margin: 0 5px 10px 5px;
+      min-width: 300px;
+    }
+  }
+
+  .description {
+    width: 700px;
+    margin: 50px auto 0 auto;
+    padding-bottom: 50px;
+    font-size: 0.9em;
+    letter-spacing: 0.01px;
+    overflow-wrap: break-word;
+    z-index: 1;
+  }
+
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .background {
+    .get-started {
+      width: auto;
+    }
+    .description {
+      width: auto;
+      margin: 30px auto 0 auto;
+      padding-bottom: 10px;
+    } 
+    a {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .background {
+    padding: 40px 0;
+
+    h1 {
+      line-height: 1em;
+    }
+
+    .links {
+      margin: 20px 0 0 0;
+
+      a {
+        width: 100%;
+        min-width: 40px;
+      }
+    }
+
+    .description {
+      width: auto;
+      margin: 40px auto 40px auto;
+      padding-bottom: 40px;
+    }
+  }
+}

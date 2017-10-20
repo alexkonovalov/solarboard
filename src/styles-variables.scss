@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+$toolbar-breakpoint: 600px;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+
+$solarboard-primary: mat-palette($mat-grey, 900, 500, 900);
+$solarboard-accent: mat-palette($mat-green, A200);
+
+$solarboard-theme: mat-dark-theme(
+  $solarboard-primary,
+  $solarboard-accent
+);
+

@@ -1,0 +1,45 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="push">
+    <div class="clickable" routerLink="about"><img [src]="logo"><span>Solarboard</span></div>
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let item of navigationSideMenu" (click)="sidenav.close()"
+         [routerLink]="[item.link]" routerLinkActive="active">
+        {{item.label}}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div class="wrapper">
+
+    <mat-toolbar color="primary">
+      <button mat-icon-button class="hidden-md-up" (click)="sidenav.open()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span routerLink="" class="clickable spacer hidden-md-up text-center"><img
+        [src]="logo"/> Solarboard</span>
+      <span routerLink="" class="clickable spacer hidden-sm-down"><img
+        [src]="logo"/> Solarboard Application</span>
+
+      <span class="hidden-sm-down">
+        <button mat-button class="nav-button" *ngFor="let item of navigation"
+            [routerLink]="[item.link]" routerLinkActive="active">
+          {{item.label}}
+        </button>
+      </span>
+      <button mat-icon-button routerLink="about" class="hidden-sm-down">
+        <mat-icon>home</mat-icon>
+      </button>
+
+    </mat-toolbar>
+
+    <div class="content"
+         [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
+      <router-outlet #o="outlet"></router-outlet>
+    </div>
+
+    <div class="footer">
+           Alex Konovalov, 2017 &#169;
+    </div>
+  </div>
+</mat-sidenav-container>

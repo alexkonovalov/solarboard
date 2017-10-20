@@ -1,0 +1,102 @@
+@import 'styles-variables';
+
+
+$primary: map-get($solarboard-theme, primary);
+$accent: map-get($solarboard-theme, accent);
+
+
+mat-sidenav-container {
+  height: 100%;
+
+  mat-toolbar {
+    z-index: 1;
+
+    button {
+      &.active {
+        color: mat-color($accent, default-contrast);
+        background-color: mat-color($accent);
+      }
+    }
+
+    .nav-button {
+      margin: 0 10px 0 0;
+      color: mat-color($accent);
+      border: 1px solid mat-color($accent);
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    @media (max-width: map-get($grid-breakpoints, lg)) {
+      .nav-button {
+        min-width: 0;
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+mat-sidenav {
+  width: 250px;
+
+  a {
+    &.active {
+      color: mat-color($accent, default-contrast);
+      background-color: mat-color($accent);
+    }
+    &.active:hover {        
+      background-color: mat-color($accent, A100);
+    }
+  }
+
+  .clickable {
+    height: 64px;
+    padding: 8px 10px;
+    font-size: 20px;
+    font-weight: 500;
+
+    img {
+      margin: 0 10px 0 0;
+    }
+
+    span {
+      position: relative;
+      top: 3px;
+    }
+  }
+
+  .mat-nav-list {
+    padding-top: 0;
+  }
+}
+
+.wrapper {
+  z-index: -2;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    flex: 1 0 auto;
+    position: relative;
+  }
+
+  .footer {
+    padding: 10px 10px;
+    text-align: center;
+    z-index: 1;
+    color: mat-color($primary, lighter);
+    background-color: mat-color($primary, darker);
+  }
+
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    .footer {
+      padding: 5px 5px;
+    }
+  }
+}

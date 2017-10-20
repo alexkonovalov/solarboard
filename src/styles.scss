@@ -1,0 +1,53 @@
+@import 'styles-variables';
+
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/utilities';
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+.black-theme {
+    $primary: map-get($solarboard-theme, primary);
+  $accent: map-get($solarboard-theme, accent);
+  $foreground: map-get($solarboard-theme, foreground);
+
+ a {
+   color: mat-color($foreground, text);
+
+    &:hover {
+      color: mat-color($accent);
+    }
+  }
+
+ code {
+    color: mat-color($accent, lighter-contrast);
+    background-color: mat-color($accent, lighter);
+  }
+
+   @include angular-material-theme($solarboard-theme);
+}
+
+/*resetting standard values*/
+* {
+  a:hover,
+  a:active,
+  a:focus {
+    text-decoration: none;
+  }
+
+  &:active,
+  :focus {
+    outline: none !important;
+  }
+}
+
+label {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}

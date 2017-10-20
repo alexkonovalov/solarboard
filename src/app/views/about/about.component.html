@@ -1,0 +1,23 @@
+<div class="background">
+  <div class="gradient">
+    <div class="container">
+      <h1 class="name">SOLARBOARD APP</h1>
+      <div class="description" [ngClass]="animateOnRouteEnter">
+        <h2>
+        This application provides a​ ​dashboard​ ​to​ ​monitor​ ​solar​ ​farm​ ​energy​ ​production
+        and a Weather forecast panel. Forecast data is consumed from Planet OS API.
+      </h2>
+      </div>
+      <div class="links">
+        <a [ngClass]="animateOnRouteEnter"
+           mat-raised-button routerLink="../weather">
+           Weather Forecast
+        </a>
+        <a mat-raised-button routerLink="../weather"
+           [ngClass]="animateOnRouteEnter">
+          Solar Panel Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

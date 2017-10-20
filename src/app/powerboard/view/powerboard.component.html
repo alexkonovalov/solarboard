@@ -1,0 +1,16 @@
+<div class="container-fluid powerboard">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="main-heading">Panel Dashboard</h1>
+    </div>
+  </div>
+  <div class="row align-items-end">
+    <div *ngFor="let panel of panels" class="col-md-2" [ngClass]="animateOnRouteEnter">
+      <mat-card>
+          <mat-card-title>
+              <b>PANEL {{panel.Id}}</b> <code class="blah"> {{panel.Power}}</code> <code>{{panel.Tension}}</code>
+          </mat-card-title>
+      </mat-card>
+    </div>
+  </div>
+</div>

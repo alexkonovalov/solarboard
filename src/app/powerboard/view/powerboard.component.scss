@@ -1,0 +1,40 @@
+@import 'styles-variables';
+
+code {
+  white-space: nowrap;
+  border-radius: 5px;
+  padding: 0 8px 1px 8px;
+}
+
+$accent: map-get($solarboard-theme, accent);
+
+code.blah {
+    background-color: mat-color($accent);
+}
+ 
+.container-fluid {
+  margin-top: 20px;
+}
+
+.main-heading {
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+}
+
+mat-card {
+  margin: 0 0 20px 0;
+  mat-card-title {
+    font-size: 15px;
+  }
+  mat-card-subtitle {
+    min-width: 40px;
+    text-align: center;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+    mat-card-subtitle {
+      min-height: auto;
+    }
+} 
+
