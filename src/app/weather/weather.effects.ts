@@ -12,7 +12,8 @@ import { Action } from '@app/core';
 
 import {
   actionRetrieveWeatherSuccess,
-  RetrieveWeatherActionSuccess,
+  RetrieveFluxActionSuccess,
+  RetrieveCloudnessActionSuccess,
   RetrieveWeatherActionFail,
   actionWeatherFail,
   ACTION_KEYS,
@@ -32,8 +33,8 @@ export class WeatherEffects {
     private weatherService: WeatherService
   ) {}
 
-  @Effect({dispatch: false})
-  retrieveClowds(): Observable<RetrieveWeatherActionSuccess|RetrieveWeatherActionFail> {
+  @Effect(/* {dispatch: false} */)
+  retrieveClowds(): Observable<RetrieveCloudnessActionSuccess|RetrieveWeatherActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
       .do(action => {
@@ -42,7 +43,7 @@ export class WeatherEffects {
       .switchMap(action => {
         return this.weatherService
           .retrieveWeatherMock(WeatherAxis.Clowdness)
-          .do(weather => console.log('***weather retrieved!!', weather))
+          .do(weather => console.log('***ABOUT TO CALL CLOUDNESS SUCCESS', weather))
           .map(weather => actionCloudnessSuccess(weather))
           .catch(err =>
             Observable.of(actionWeatherFail('err'))
@@ -50,8 +51,8 @@ export class WeatherEffects {
       });
   }
 
-  @Effect({dispatch: false})
-  retrieveWeather(): Observable<RetrieveWeatherActionSuccess|RetrieveWeatherActionFail> {
+  @Effect(/* {dispatch: false} */)
+  retrieveWeather(): Observable<RetrieveFluxActionSuccess|RetrieveWeatherActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
       .do(action => {
@@ -60,7 +61,7 @@ export class WeatherEffects {
       .switchMap(action => {
         return this.weatherService
           .retrieveWeatherMock(WeatherAxis.SolarFlux)
-          .do(weather => console.log('***weather retrieved!!', weather))
+          .do(weather => console.log('***ABOUT TO CALL FLUX SUCCESS', weather))
           .map(weather => actionWeatherSuccess2(weather))
           .catch(err =>
             Observable.of(actionWeatherFail('err'))

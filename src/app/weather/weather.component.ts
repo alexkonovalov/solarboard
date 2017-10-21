@@ -58,14 +58,16 @@ export class WeatherComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject<void>();
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   dataSource = new ExampleDataSource();
+  weather: any;
 
   constructor(public store: Store<any>, private weatherService: WeatherService) {}
 
   ngOnInit() {
     this.store
-    .select(state => state.weather.weather)
+    .select(state => state.weather/* .weather */)
     .takeUntil(this.unsubscribe$)
     .subscribe((weather: any) => {
+      this.weather = weather;
       console.log('******__________weather in component!!', weather);
     });
 

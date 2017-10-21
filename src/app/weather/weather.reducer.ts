@@ -1,10 +1,16 @@
 import { Action } from '@app/core';
 import { WeatherInfo} from './weather.model';
 
-export const initialState = {
-  symbol: 'GOOGL',
-};
+class WeatherState {
+  IsLoading: boolean;
+  Error?: any;
+  Clouds?: WeatherInfo[];
+  Flux?: WeatherInfo[];
+}
 
+export const initialState: WeatherState = {
+  IsLoading : false
+};
 
 export const WEATHER_RETRIEVE = 'WEATHER_RETRIEVE';
 export const WEATHER_RETRIEVE_SUCCESS = 'WEATHER_RETRIEVE_SUCCESS';
@@ -12,7 +18,7 @@ export const WEATHER_RETRIEVE_ERROR = 'WEATHER_RETRIEVE_ERROR';
 
 export enum ACTION_KEYS {
   WEATHER_RETRIEVE = 'WEATHER_RETRIEVE',
-  WEATHER_RETRIEVE_SUCCESS = 'WEATHER_RETRIEVE_SUCCESS',
+  FLUX_RETRIEVE_SUCCESS = 'FLUX_RETRIEVE_SUCCESS',
   CLOUDNESS_RETRIEVE_SUCCESS = 'CLOUDNESS_RETRIEVE_SUCCESS',
   WEATHER_RETRIEVE_ERROR = 'WEATHER_RETRIEVE_ERROR',
   WEATHER_RETRIEVE_FAIL = 'WEATHER_RETRIEVE_FAIL'
@@ -23,8 +29,8 @@ export interface RetrieveWeatherAction {
   by: string;
 }
 
-export interface RetrieveWeatherActionSuccess {
-  type: ACTION_KEYS.WEATHER_RETRIEVE_SUCCESS;
+export interface RetrieveFluxActionSuccess {
+  type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS;
   by: WeatherInfo[];
 }
 
@@ -38,13 +44,13 @@ export interface RetrieveWeatherActionFail {
   by: string;
 }
 
-export const actionWeatherSuccess2 = (by: WeatherInfo[]): RetrieveWeatherActionSuccess => ({
-  type: ACTION_KEYS.WEATHER_RETRIEVE_SUCCESS,
+export const actionWeatherSuccess2 = (by: WeatherInfo[]): RetrieveFluxActionSuccess => ({
+  type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS,
   by
 });
 
-export const actionCloudnessSuccess = (by: WeatherInfo[]): RetrieveWeatherActionSuccess => ({
-  type: ACTION_KEYS.WEATHER_RETRIEVE_SUCCESS,
+export const actionCloudnessSuccess = (by: WeatherInfo[]): RetrieveCloudnessActionSuccess => ({
+  type: ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS,
   by
 });
 
@@ -60,7 +66,7 @@ export const actionRetrieveWeather2 = (by: string): RetrieveWeatherAction => ({
 
 export type WeatherActionTypes =
   RetrieveWeatherAction
-  | RetrieveWeatherActionSuccess
+  | RetrieveFluxActionSuccess
   | RetrieveCloudnessActionSuccess;
 
 export const actionRetrieveWeather = (symbol: string) => ({
@@ -69,32 +75,28 @@ export const actionRetrieveWeather = (symbol: string) => ({
 });
 
 export const actionRetrieveWeatherSuccess = (weather: WeatherInfo[]) => ({
-  type: ACTION_KEYS.WEATHER_RETRIEVE_SUCCESS,
+  type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS,
   payload: weather
 });
 
 export const selectorWeather = state => state.weather;
 
-export function weatherReducer(state = initialState, action: WeatherActionTypes) {
+export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
   switch (action.type) {
-    case ACTION_KEYS.WEATHER_RETRIEVE_SUCCESS: {
-      console.log('Weather_RETRIEVE_SUCCESS', action.by);
-
-      const weatherObj = Object.assign({}, state, {
-        loading: false,
-        weather: action.by,
-        error: null
-      });
-
-      console.log('***weatherObfj', weatherObj);
-      return weatherObj;
+    case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: {
+      return {
+        ...state,
+        IsLoading: false,
+        Flux: action.by
+      };
     }
 
     case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: {
-      console.log('Weather_RETRIEVE_SUCCESS', action.by);
-
-      console.log('________________CLOUDNESS:',  action.by);
-      return state;
+      return {
+        ...state,
+        IsLoading: false,
+        Clouds: action.by
+      };
     }
 
     default:
