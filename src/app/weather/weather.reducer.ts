@@ -1,11 +1,21 @@
 import { Action } from '@app/core';
 import { WeatherInfo} from './weather.model';
 
+interface IDictionary {
+  [date: string]: {
+    [time: string]: {
+      Flux?: number;
+      Cloud?: number;
+    }
+  };
+};
+
 class WeatherState {
   IsLoading: boolean;
   Error?: any;
   Clouds?: WeatherInfo[];
   Flux?: WeatherInfo[];
+  Weather?: IDictionary;
 }
 
 export const initialState: WeatherState = {
@@ -81,21 +91,65 @@ export const actionRetrieveWeatherSuccess = (weather: WeatherInfo[]) => ({
 
 export const selectorWeather = state => state.weather;
 
+class WeatherObj {
+  Date: string;
+  WeatherTimes: {
+    Time: string;
+    Flux?: number;
+    Cloud?: number;
+  };
+}
+
+
+
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
   switch (action.type) {
     case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: {
+      const infos = action.by;
+      const dates: IDictionary = infos
+        .reduce((acc: IDictionary, curr) => {
+          const date = curr.time.slice(0, 10);
+          if (!acc[date]) { // todo remove code duplication
+            acc[date] = {[curr.time]: {Flux: curr.value }};
+          } else
+          if (!acc[date][curr.time]) {
+            acc[date][curr.time] = {Flux: curr.value };
+          } else {
+            acc[date][curr.time] = {...acc[date][curr.time], Flux: curr.value };
+          }
+
+          return acc;
+        } , state.Weather || {});
+
       return {
         ...state,
         IsLoading: false,
-        Flux: action.by
+        Flux: infos,
+        Weather: dates
       };
     }
 
     case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: {
+      const infos = action.by;
+      const dates: IDictionary = infos
+        .reduce((acc: IDictionary, curr) => {
+          const date = curr.time.slice(0, 10);
+          if (!acc[date]) { // todo remove code duplication
+            acc[date] = {[curr.time]: {Cloud: curr.value }};
+          } else
+          if (!acc[date][curr.time]) {
+            acc[date][curr.time] = { Cloud: curr.value };
+          } else {
+            acc[date][curr.time] = {...acc[date][curr.time], Cloud: curr.value };
+          }
+          return acc;
+        }, state.Weather || {});
+
       return {
         ...state,
         IsLoading: false,
-        Clouds: action.by
+        Clouds: action.by,
+        Weather: dates
       };
     }
 
