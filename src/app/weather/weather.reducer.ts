@@ -15,11 +15,12 @@ class WeatherState {
   Error?: any;
   Clouds?: WeatherInfo[];
   Flux?: WeatherInfo[];
-  Weather?: IDictionary;
+  Weather: IDictionary;
 }
 
 export const initialState: WeatherState = {
-  IsLoading : false
+  IsLoading : false,
+  Weather: { ['asdf']: {['asasd']: {}}}
 };
 
 export const WEATHER_RETRIEVE = 'WEATHER_RETRIEVE';
@@ -134,6 +135,18 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
       const dates: IDictionary = infos
         .reduce((acc: IDictionary, curr) => {
           const date = curr.time.slice(0, 10);
+          return {...acc,
+              date: {...acc.date,
+                  [curr.time]:
+                    acc.date ? {
+                    ...acc.date[curr.time],
+                    Cloud: curr.value
+                  } : {
+                    Cloud: curr.value
+                  }
+            }
+          };
+/* 
           if (!acc[date]) { // todo remove code duplication
             acc[date] = {[curr.time]: {Cloud: curr.value }};
           } else
@@ -142,8 +155,8 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
           } else {
             acc[date][curr.time] = {...acc[date][curr.time], Cloud: curr.value };
           }
-          return acc;
-        }, state.Weather || {});
+          return acc; */
+        }, state.Weather);
 
       return {
         ...state,
