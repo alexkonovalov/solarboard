@@ -105,57 +105,47 @@ class WeatherObj {
 
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
   switch (action.type) {
-    case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: {
+
+    case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: { // todo remove code doubling from recducers:
       const infos = action.by;
       const dates: IDictionary = infos
-        .reduce((acc: IDictionary, curr) => {
-          const date = curr.time.slice(0, 10);
-          if (!acc[date]) { // todo remove code duplication
-            acc[date] = {[curr.time]: {Flux: curr.value }};
-          } else
-          if (!acc[date][curr.time]) {
-            acc[date][curr.time] = {Flux: curr.value };
-          } else {
-            acc[date][curr.time] = {...acc[date][curr.time], Flux: curr.value };
-          }
+        .reduce((accumulator: IDictionary, currentElement) => {
+          const date = currentElement.time.slice(0, 10);
+          return { ...accumulator,
+            [date]: {
+              ...accumulator[date],
+              [currentElement.time]: {
+                  ...(accumulator[date] || {})[currentElement.time],
+                  Flux: currentElement.value
+                }
+            }
+          };
 
-          return acc;
-        } , state.Weather || {});
+        }, state.Weather);
 
       return {
         ...state,
         IsLoading: false,
-        Flux: infos,
+        Clouds: action.by,
         Weather: dates
       };
     }
 
+
     case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: {
       const infos = action.by;
       const dates: IDictionary = infos
-        .reduce((acc: IDictionary, curr) => {
-          const date = curr.time.slice(0, 10);
-          return {...acc,
-              date: {...acc.date,
-                  [curr.time]:
-                    acc.date ? {
-                    ...acc.date[curr.time],
-                    Cloud: curr.value
-                  } : {
-                    Cloud: curr.value
-                  }
+        .reduce((accumulator: IDictionary, currentElement) => { // todo remove code doubling from recducers:
+          const date = currentElement.time.slice(0, 10);
+          return { ...accumulator,
+            [date]: {
+              ...accumulator[date],
+              [currentElement.time]: {
+                  ...(accumulator[date] || {})[currentElement.time],
+                  Cloud: currentElement.value
+                }
             }
           };
-/* 
-          if (!acc[date]) { // todo remove code duplication
-            acc[date] = {[curr.time]: {Cloud: curr.value }};
-          } else
-          if (!acc[date][curr.time]) {
-            acc[date][curr.time] = { Cloud: curr.value };
-          } else {
-            acc[date][curr.time] = {...acc[date][curr.time], Cloud: curr.value };
-          }
-          return acc; */
         }, state.Weather);
 
       return {
