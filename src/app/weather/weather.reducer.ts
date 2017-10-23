@@ -11,7 +11,8 @@ interface WeatherDictionary {
 };
 
 class WeatherState {
-  IsLoading: boolean;
+  IsCloudsLoading: boolean;
+  IsFluxLoading: boolean;
   Error?: any;
   Clouds?: WeatherInfo[];
   Flux?: WeatherInfo[];
@@ -19,7 +20,8 @@ class WeatherState {
 }
 
 export const initialState: WeatherState = {
-  IsLoading : false,
+  IsCloudsLoading : false,
+  IsFluxLoading: false,
   Weather: {}
 };
 
@@ -92,19 +94,16 @@ export const actionRetrieveWeatherSuccess = (weather: WeatherInfo[]) => ({
 
 export const selectorWeather = state => state.weather;
 
-class WeatherObj {
-  Date: string;
-  WeatherTimes: {
-    Time: string;
-    Flux?: number;
-    Cloud?: number;
-  };
-}
-
-
-
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
   switch (action.type) {
+
+    case ACTION_KEYS.WEATHER_RETRIEVE: {
+      return {
+        ...state,
+        IsFluxLoading: true,
+        IsCloudsLoading: true
+      };
+    }
 
     case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: { // todo remove code doubling from recducers:
       const infos = action.by;
@@ -125,8 +124,7 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
 
       return {
         ...state,
-        IsLoading: false,
-        Clouds: action.by,
+        IsFluxLoading: false,
         Weather: dates
       };
     }
@@ -150,8 +148,7 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
 
       return {
         ...state,
-        IsLoading: false,
-        Clouds: action.by,
+        IsCloudsLoading: false,
         Weather: dates
       };
     }
