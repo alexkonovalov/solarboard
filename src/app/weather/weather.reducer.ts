@@ -1,7 +1,7 @@
 import { Action } from '@app/core';
 import { WeatherInfo} from './weather.model';
 
-interface IDictionary {
+interface WeatherDictionary {
   [date: string]: {
     [time: string]: {
       Flux?: number;
@@ -15,12 +15,12 @@ class WeatherState {
   Error?: any;
   Clouds?: WeatherInfo[];
   Flux?: WeatherInfo[];
-  Weather: IDictionary;
+  Weather: WeatherDictionary;
 }
 
 export const initialState: WeatherState = {
   IsLoading : false,
-  Weather: { ['asdf']: {['asasd']: {}}}
+  Weather: {}
 };
 
 export const WEATHER_RETRIEVE = 'WEATHER_RETRIEVE';
@@ -108,8 +108,8 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
 
     case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: { // todo remove code doubling from recducers:
       const infos = action.by;
-      const dates: IDictionary = infos
-        .reduce((accumulator: IDictionary, currentElement) => {
+      const dates: WeatherDictionary = infos
+        .reduce((accumulator: WeatherDictionary, currentElement) => {
           const date = currentElement.time.slice(0, 10);
           return { ...accumulator,
             [date]: {
@@ -134,8 +134,8 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
 
     case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: {
       const infos = action.by;
-      const dates: IDictionary = infos
-        .reduce((accumulator: IDictionary, currentElement) => { // todo remove code doubling from recducers:
+      const dates: WeatherDictionary = infos
+        .reduce((accumulator: WeatherDictionary, currentElement) => { // todo remove code doubling from recducers:
           const date = currentElement.time.slice(0, 10);
           return { ...accumulator,
             [date]: {
