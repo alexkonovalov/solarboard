@@ -48,6 +48,27 @@ export class WeatherComponent implements OnInit, OnDestroy {
     if (!info) {
       return '';
     }
+    if (info.Flux > 250) {
+      return 'cell-extreme';
+    }
+    if (info.Flux > 170) {
+      return 'cell-hot';
+    }
+    if (info.Flux > 120) {
+      return 'cell-moderate';
+    }
+    if (info.Flux > 100) {
+      return 'cell-mild';
+    }
+    if (info.Flux > 20) {
+      return 'cell-low';
+    }
+    if (info.Flux > 0) {
+      return 'cell-derary';
+    }
+    if (info.Flux === 0) {
+      return 'cell-dark';
+    }
 
     return info.Flux > 100 ?
       'cell-bright' :

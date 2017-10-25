@@ -11,14 +11,10 @@ $accent: map-get($solarboard-theme, accent);
 code.blah {
     background-color: mat-color($accent);
 }
- 
-.container-fluid {
-  margin-top: 20px;
-}
 
 .main-heading {
   text-transform: uppercase;
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
 }
 
 mat-card {

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid" >
   <div class="row">
     <div class="col-md-12">
       <h1 class="main-heading">Weather Forecast</h1> 
@@ -7,18 +7,18 @@
   <table class="table">
       <thead>
           <tr>
-            <th>#</th>
-            <th *ngFor="let time of times">{{ time | date: 'shortTime'}}</th>
+            <th class="day"></th>
+            <th *ngFor="let time of times; let idx = index" [class.even]="idx % 2 === 0">{{ time | date: 'shortTime'}}</th>
           </tr>
         </thead>
     <tbody>
       <tr *ngFor="let day of days">
-         <td class="even">{{ day | date: 'shortDate' }}</td>
+         <td><div class="day">{{ day | date: 'shortDate' }}</div></td>
          <td *ngFor="let time of times; let idx = index" 
               [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(weatherInfo[day.toISOString()][time.toISOString()])]">
-            <div *ngIf="weatherInfo[day.toISOString()][time.toISOString()]">
+            <div  *ngIf="weatherInfo[day.toISOString()][time.toISOString()]">
               <div class="flux">{{weatherInfo[day.toISOString()][time.toISOString()].Flux | number:'0.1-1'}}</div>
-              <div class="cloud">({{weatherInfo[day.toISOString()][time.toISOString()].Cloud | number:'0.1-1'}})</div>
+              <div class="cloud">/{{weatherInfo[day.toISOString()][time.toISOString()].Cloud | number:'0.1-1'}}</div>
             </div>
         </td>
       </tr>

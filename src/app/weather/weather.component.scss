@@ -2,40 +2,67 @@
 
 .main-heading {
   text-transform: uppercase;
-  margin: 0 0 20px 0;
+  margin: 20px 0 10px 0;
+}
+
+.table td,
+.table th {
+    border: 0;
+    text-align: center; 
 }
 
 td {
-  &.cell-bright {
-    background-color: #FFFF00;
+  &.cell-extreme {
+    background-color: #FF0;
     color: #000;
   }
-  
+  &.cell-hot {
+    background-color: rgba(255, 255, 0, 0.95);
+    color: #000;
+  }
+  &.cell-moderate {
+    background-color: rgba(255, 255, 0, 0.90);
+    color: #000;
+  }
+  &.cell-mild {
+    background-color: rgba(255, 255, 0, 0.80);
+    color: #000;
+  }
+  &.cell-low {
+    background-color: rgba(255, 255, 0, 0.7);
+    color: #000;
+  }
+  &.cell-derary {
+    background-color: rgba(255, 255, 0, 0.3);
+    color: #FFF;
+  }
   &.cell-dark {
     background-color: #000000;
     color: #FFF;
   }
-  
-  &.cell-average {
-    background-color: #888800;
-    color: #FFF;
+
+  .flux, .cloud {
+    font-weight:600;
   }
 }
 
 @media (max-width: map-get($grid-breakpoints, sm)) {
-  td {
+  td, th {
     &.even {
       display: none;
     }
+    .day {
+      transform: matrix(0, -1, 1 , 0, 0, 30);
+      font-size: smaller;
+      font-weight:600;
+      max-width: 10px;
+    }
+  }
 
-    .flux {
+  td {
+    .flux, cloud {
       font-size: smaller;
     }
-    .cloud {
-      font-size: smaller;
-    }
-
-    
   }
 }
 

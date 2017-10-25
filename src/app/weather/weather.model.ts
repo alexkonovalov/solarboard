@@ -10,7 +10,6 @@ export enum WeatherAxis {
   SolarFlux = 'av_swsfcdown'
 }
 
-
 export interface WeatherDictionary {
   [date: string]: {
     [time: string]: {
