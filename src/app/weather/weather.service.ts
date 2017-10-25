@@ -126,7 +126,9 @@ export class WeatherService {
           responseType: 'text'
       }) */
       .map((res: string) => {
-        const rows = res.split('\n');
+        const rows = res
+          .replace(/['"]+/g, '')
+          .split('\n');
         rows.shift(); // todo crop the string instead. better for performance
         return rows
           .map((row: string) => row.split(','))

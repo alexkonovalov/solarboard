@@ -5,16 +5,18 @@
     </div>
   </div>
   <div>
-     </div>
+    {{stringify(weather.AllDays[0].toISOString())}}
+    {{stringify(weather.Weather[weather.AllDays[0].toISOString()])}}
+  </div>
   <table class="table">
     <tbody>
-      <tr *ngFor="let day of getKeys(weather.Weather)">
+      <tr *ngFor="let day of weather.AllDays">
          <!--  {{stringify(weather.Weather[day])}} -->
          <td class="even">{{ day }}</td>
-         <td *ngFor="let time of getKeys(weather.Weather[day]); let idx = index" 
-            [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(weather.Weather[day][time].Flux)]">
-            <span class="flux">{{weather.Weather[day][time].Flux}}</span> <br>
-            <span class="cloud">({{weather.Weather[day][time].Cloud}})</span>
+         <td *ngFor="let time of getKeys(weather.Weather[day.toISOString()]); let idx = index" 
+            [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(weather.Weather[day.toISOString()][time].Flux)]">
+            <span class="flux">{{weather.Weather[day.toISOString()][time].Flux}}</span> <br>
+            <span class="cloud">({{weather.Weather[day.toISOString()][time].Cloud}})</span>
           </td>
       </tr>
     </tbody>
