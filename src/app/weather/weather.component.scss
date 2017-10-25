@@ -1,5 +1,43 @@
+@import 'styles-variables';
+
 .main-heading {
   text-transform: uppercase;
   margin: 0 0 20px 0;
 }
+
+td {
+  &.cell-bright {
+    background-color: #FFFF00;
+    color: #000;
+  }
+  
+  &.cell-dark {
+    background-color: #000000;
+    color: #FFF;
+  }
+  
+  &.cell-average {
+    background-color: #888800;
+    color: #FFF;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  td {
+    &.even {
+      display: none;
+    }
+
+    .flux {
+      font-size: smaller;
+    }
+    .cloud {
+      font-size: smaller;
+    }
+
+    
+  }
+}
+
+
 

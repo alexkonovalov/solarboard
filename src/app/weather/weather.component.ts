@@ -80,8 +80,18 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  GetClassName = value =>
+    value > 100 ?
+      'cell-bright' :
+    value > 30 ?
+      'cell-average' :
+      'cell-dark';
+
   stringify(obj: any): string {
     return JSON.stringify(obj);
   }
 
+  getKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
 }

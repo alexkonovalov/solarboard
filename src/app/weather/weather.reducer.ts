@@ -109,7 +109,7 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
       const infos = action.by;
       const dates: WeatherDictionary = infos
         .reduce((accumulator: WeatherDictionary, currentElement) => {
-          const date = currentElement.time.slice(0, 10);
+          const date = currentElement.time.slice(0, 11);
           return { ...accumulator,
             [date]: {
               ...accumulator[date],
@@ -134,10 +134,10 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
       const infos = action.by;
       const dates: WeatherDictionary = infos
         .reduce((accumulator: WeatherDictionary, currentElement) => { // todo remove code doubling from recducers:
-          const date = currentElement.time.slice(0, 10);
+          const date = currentElement.time.slice(0, 11);
           return { ...accumulator,
             [date]: {
-              ...accumulator[date],
+              ...accumulator[date] || {},
               [currentElement.time]: {
                   ...(accumulator[date] || {})[currentElement.time],
                   Cloud: currentElement.value

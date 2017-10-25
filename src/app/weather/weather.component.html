@@ -5,12 +5,23 @@
     </div>
   </div>
   <div>
-    {{stringify(weather.Weather)}}
-  </div>
+     </div>
+  <table class="table">
+    <tbody>
+      <tr *ngFor="let day of getKeys(weather.Weather)">
+         <!--  {{stringify(weather.Weather[day])}} -->
+         <td class="even">{{ day }}</td>
+         <td *ngFor="let time of getKeys(weather.Weather[day]); let idx = index" 
+            [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(weather.Weather[day][time].Flux)]">
+            <span class="flux">{{weather.Weather[day][time].Flux}}</span> <br>
+            <span class="cloud">({{weather.Weather[day][time].Cloud}})</span>
+          </td>
+      </tr>
+    </tbody>
+  </table>
   <mat-table #table [dataSource]="dataSource">
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-
     <!-- Position Column -->
     <ng-container matColumnDef="position">
       <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --port 4201",
+    "start": "ng serve --open --port 4200",
     "build": "ng build",
     "lint": "ng lint",
     "build:prod": "ng build --target production --aot --build-optimizer --vendor-chunk --extract-css --output-hashing all --stats-json",
