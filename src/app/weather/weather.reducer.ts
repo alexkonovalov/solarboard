@@ -66,25 +66,23 @@ export type WeatherActionTypes =
 
 export const selectorWeather = state => state.weather;
 
-function getUniqueDaysTimesUnixFormat(infos: WeatherInfo[]): {days: number[], times: number[]} {
-  const allDates = infos
-  .map(info => moment(info.time))
-  .map(dateTime => ({
-    day: dateTime.clone().startOf('day'),
-    time: moment(dateTime.diff(dateTime.clone().startOf('day')))
-  }));
+function getDayInfos(infos: WeatherInfo[]): {value: number, day: moment.Moment, time: moment.Moment}[] {
+  return infos
+    .map(info => ({value: info.value, date: moment(info.time)}))
+    .map(info => ({
+      value: info.value,
+      day: info.date.clone().startOf('day'),
+      time: moment(info.date.diff(info.date.clone().startOf('day')))
+    }));
+}
 
-  const days = Array
-    .from(new Set(allDates.map(dateTime => dateTime.day.unix())));
-
-  const times = Array
-    .from(new Set(allDates
-      .map(dateTime => dateTime.time.unix())));
-
-  return {
-    days: days,
-    times: times
-  };
+function mergeDateArrays(arr1: moment.Moment[], arr2: moment.Moment[]): moment.Moment[] {
+  return Array
+    .from(new Set([...arr1
+        .map(day => day.unix()),
+      ...arr2
+        .map(day => day.unix())]))
+    .map(day => moment.unix(day));
 }
 
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
@@ -99,20 +97,10 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
     }
 
     case ACTION_KEYS.FLUX_RETRIEVE_SUCCESS: { // todo remove code doubling from recducers:
-      const infos = action.by;
+      const dayInfos = getDayInfos(action.by);
 
-      const distinctDates = getUniqueDaysTimesUnixFormat(infos);
-
-      const allDates = infos
-        .map(info => ({value: info.value, date: moment(info.time)}))
-        .map(info => ({
-          value: info.value,
-          day: info.date.clone().startOf('day'),
-          time: moment(info.date.diff(info.date.clone().startOf('day')))
-        }));
-
-      const dates: WeatherDictionary = allDates
-        .reduce((accumulator: WeatherDictionary, currentElement) => { // todo remove code doubling from recducers:
+      const dates: WeatherDictionary = dayInfos
+        .reduce((accumulator: WeatherDictionary, currentElement) => {
           const day = currentElement.day.toISOString();
           const time = currentElement.time.toISOString();
 
@@ -126,45 +114,22 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
             }
           };
         }, state.Weather);
-
-/*       const dates: WeatherDictionary = infos
-        .reduce((accumulator: WeatherDictionary, currentElement) => {
-          const date = moment(currentElement.time).startOf('day').toISOString();
-          return { ...accumulator,
-            [date]: {
-              ...accumulator[date],
-              [currentElement.time]: {
-                  ...(accumulator[date] || {})[currentElement.time],
-                  Flux: currentElement.value
-                }
-            }
-          };
-
-        }, state.Weather); */
 
       return {
         ...state,
         IsFluxLoading: false,
-        Weather: dates
+        Weather: dates,
+        AllDays: mergeDateArrays(state.AllDays, dayInfos.map(dateTime => dateTime.day)),
+        AllTimes: mergeDateArrays(state.AllTimes, dayInfos.map(dateTime => dateTime.time))
       };
     }
 
 
-    case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: {
-      const infos = action.by;
+    case ACTION_KEYS.CLOUDNESS_RETRIEVE_SUCCESS: { // todo remove code doubling from recducers:
+      const dayInfos = getDayInfos(action.by);
 
-      const distinctDates = getUniqueDaysTimesUnixFormat(infos);
-
-      const allDates = infos
-        .map(info => ({value: info.value, date: moment(info.time)}))
-        .map(info => ({
-          value: info.value,
-          day: info.date.clone().startOf('day'),
-          time: moment(info.date.diff(info.date.clone().startOf('day')))
-        }));
-
-      const dates: WeatherDictionary = allDates
-        .reduce((accumulator: WeatherDictionary, currentElement) => { // todo remove code doubling from recducers:
+      const dates: WeatherDictionary = dayInfos
+        .reduce((accumulator: WeatherDictionary, currentElement) => {
           const day = currentElement.day.toISOString();
           const time = currentElement.time.toISOString();
 
@@ -178,27 +143,13 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
             }
           };
         }, state.Weather);
-
-/*       const dates: WeatherDictionary = infos
-        .reduce((accumulator: WeatherDictionary, currentElement) => { // todo remove code doubling from recducers:
-          const date = moment(currentElement.time).startOf('day').toISOString();
-          return { ...accumulator,
-            [date]: {
-              ...accumulator[date],
-              [currentElement.time]: {
-                  ...(accumulator[date] || {})[currentElement.time],
-                  Cloud: currentElement.value
-                }
-            }
-          };
-        }, state.Weather); */
 
       return {
         ...state,
         IsCloudsLoading: false,
         Weather: dates,
-        AllDays: distinctDates.days.map(day => moment.unix(day)),
-        AllTimes: distinctDates.times.sort().map(day => moment.unix(day))
+        AllDays: mergeDateArrays(state.AllDays, dayInfos.map(dateTime => dateTime.day)),
+        AllTimes: mergeDateArrays(state.AllTimes, dayInfos.map(dateTime => dateTime.time))
       };
     }
 

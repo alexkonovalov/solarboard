@@ -105,37 +105,4 @@ export class WeatherService {
           .map(row => ({ time: row[3], time2: moment(row[3]), value: Number.parseFloat(row[4])}))
       });
   }
-
-  retrieveWeatherMock(axis: WeatherAxis): Observable<any[]> {
-      return Observable.of(axis === WeatherAxis.SolarFlux ? [
-          { time: '2017-10-20T12:00:00', value: 234.2 },
-          { time: '2017-10-20T15:00:00', value: 43.3 },
-          { time: '2017-10-26T00:00:00', value: 11.4 },
-          { time: '2017-10-26T03:00:00', value: 43.2 },
-          { time: '2017-10-26T06:00:00', value: 56.2 },
-          { time: '2017-10-26T09:00:00', value: 99.8 },
-          { time: '2017-10-26T12:00:00', value: 30.8 },
-          { time: '2017-10-26T15:00:00', value: 123.8 },
-          { time: '2017-10-26T18:00:00', value: 556.5 },
-          { time: '2017-10-26T21:00:00', value: 10.5 }]
-            .map(x => ({
-                ...x,
-                time2: moment(x.time)
-            })) : [
-          { time: '2017-10-20T12:00:00', value: 0.98 },
-          { time: '2017-10-20T15:00:00', value: 0.37 },
-          { time: '2017-10-26T00:00:00', value: 0.04 },
-          { time: '2017-10-26T03:00:00', value: 0.82 },
-          { time: '2017-10-26T06:00:00', value: 0.12 },
-          { time: '2017-10-26T09:00:00', value: 0.88 },
-          { time: '2017-10-26T12:00:00', value: 0.76 },
-          { time: '2017-10-26T15:00:00', value: 0.81 },
-          { time: '2017-10-26T18:00:00', value: 0.84 },
-          { time: '2017-10-26T21:00:00', value: 0.35 }
-        ].map(x => ({
-          ...x,
-          time2: moment(x.time)
-      }))
-      );
-  }
 }
