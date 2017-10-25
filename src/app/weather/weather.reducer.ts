@@ -11,10 +11,6 @@ export const initialState: WeatherState = {
   AllTimes: []
 };
 
-export const WEATHER_RETRIEVE = 'WEATHER_RETRIEVE';
-export const WEATHER_RETRIEVE_SUCCESS = 'WEATHER_RETRIEVE_SUCCESS';
-export const WEATHER_RETRIEVE_ERROR = 'WEATHER_RETRIEVE_ERROR';
-
 export enum ACTION_KEYS {
   WEATHER_RETRIEVE = 'WEATHER_RETRIEVE',
   FLUX_RETRIEVE_SUCCESS = 'FLUX_RETRIEVE_SUCCESS',
@@ -43,7 +39,7 @@ export interface RetrieveWeatherActionFail {
   by: string;
 }
 
-export const actionWeatherSuccess2 = (by: WeatherInfo[]): RetrieveFluxActionSuccess => ({
+export const actionRetrieveWeatherSuccess = (by: WeatherInfo[]): RetrieveFluxActionSuccess => ({
   type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS,
   by
 });
@@ -58,9 +54,8 @@ export const actionWeatherFail = (by: string): RetrieveWeatherActionFail => ({
   by
 });
 
-export const actionRetrieveWeather2 = (by: string): RetrieveWeatherAction => ({
-  type: ACTION_KEYS.WEATHER_RETRIEVE,
-  by
+export const actionRetrieveWeather = () => ({
+  type: ACTION_KEYS.WEATHER_RETRIEVE
 });
 
 export type WeatherActionTypes =
@@ -68,15 +63,6 @@ export type WeatherActionTypes =
   | RetrieveFluxActionSuccess
   | RetrieveCloudnessActionSuccess;
 
-export const actionRetrieveWeather = (symbol: string) => ({
-  type: ACTION_KEYS.WEATHER_RETRIEVE,
-  payload: symbol
-});
-
-export const actionRetrieveWeatherSuccess = (weather: WeatherInfo[]) => ({
-  type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS,
-  payload: weather
-});
 
 export const selectorWeather = state => state.weather;
 
@@ -93,9 +79,7 @@ function getUniqueDaysTimesUnixFormat(infos: WeatherInfo[]): {days: number[], ti
 
   const times = Array
     .from(new Set(allDates
-      .map(dateTime => dateTime.time.unix())))
-    /* .sort()
-    .map(time => moment.unix(time)) */;
+      .map(dateTime => dateTime.time.unix())));
 
   return {
     days: days,

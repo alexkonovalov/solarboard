@@ -11,13 +11,12 @@ import 'rxjs/add/observable/of';
 import { Action } from '@app/core';
 
 import {
-  actionRetrieveWeatherSuccess,
   RetrieveFluxActionSuccess,
   RetrieveCloudnessActionSuccess,
   RetrieveWeatherActionFail,
   actionWeatherFail,
   ACTION_KEYS,
-  actionWeatherSuccess2,
+  actionRetrieveWeatherSuccess,
   actionCloudnessSuccess
 } from './weather.reducer';
 import {
@@ -62,7 +61,7 @@ export class WeatherEffects {
         return this.weatherService
           .retrieveWeather(WeatherAxis.SolarFlux)
           .do(weather => console.log('***ABOUT TO CALL FLUX SUCCESS', weather))
-          .map(weather => actionWeatherSuccess2(weather))
+          .map(weather => actionRetrieveWeatherSuccess(weather))
           .catch(err =>
             Observable.of(actionWeatherFail('err'))
           );
