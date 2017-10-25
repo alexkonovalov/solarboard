@@ -7,9 +7,11 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import * as moment from 'moment';
 
-import { actionRetrieveWeather2, selectorWeather } from './weather.reducer';
+import { actionRetrieveWeather2, selectorWeather,} from './weather.reducer';
 import { WeatherService } from './weather.service';
+import { WeatherState, WeatherDictionary, WeatherInfo } from './weather.model';
 
 export interface Element {
   name: string;
@@ -58,16 +60,22 @@ export class WeatherComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject<void>();
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   dataSource = new ExampleDataSource();
-  weather: any;
+  weather: WeatherState;
+  weatherInfo: WeatherDictionary;
+  days: moment.Moment[];
+  times: moment.Moment[];
 
   constructor(public store: Store<any>, private weatherService: WeatherService) {}
 
   ngOnInit() {
     this.store
-    .select(state => state.weather/* .weather */)
+    .select(state => state.weather as WeatherState)
     .takeUntil(this.unsubscribe$)
-    .subscribe((weather: any) => {
+    .subscribe(weather => {
       this.weather = weather;
+      this.weatherInfo = weather.Weather;
+      this.days = weather.AllDays;
+      this.times = weather.AllTimes;
       console.log('******__________weather in component!!', weather);
     });
 
@@ -80,12 +88,17 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  GetClassName = value =>
-    value > 100 ?
+  GetClassName(info: { Flux: number }) {
+    if (!info) {
+      return '';
+    }
+
+    return info.Flux > 100 ?
       'cell-bright' :
-    value > 30 ?
+    info.Flux > 30 ?
       'cell-average' :
       'cell-dark';
+  }
 
   stringify(obj: any): string {
     return JSON.stringify(obj);

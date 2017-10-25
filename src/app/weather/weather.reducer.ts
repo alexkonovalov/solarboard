@@ -1,27 +1,7 @@
 import * as moment from 'moment';
 
 import { Action } from '@app/core';
-import { WeatherInfo} from './weather.model';
-
-interface WeatherDictionary {
-  [date: string]: {
-    [time: string]: {
-      Flux?: number;
-      Cloud?: number;
-    }
-  };
-};
-
-class WeatherState {
-  IsCloudsLoading: boolean;
-  IsFluxLoading: boolean;
-  Error?: any;
-  Clouds?: WeatherInfo[];
-  Flux?: WeatherInfo[];
-  Weather: WeatherDictionary;
-  AllDays: moment.Moment[];
-  AllTimes: moment.Moment[];
-}
+import { WeatherInfo, WeatherState, WeatherDictionary } from './weather.model';
 
 export const initialState: WeatherState = {
   IsCloudsLoading : false,
@@ -234,7 +214,7 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
         IsCloudsLoading: false,
         Weather: dates,
         AllDays: distinctDates.days.map(day => moment.unix(day)),
-        AllTimes: distinctDates.times.map(day => moment.unix(day))
+        AllTimes: distinctDates.times.sort().map(day => moment.unix(day))
       };
     }
 
