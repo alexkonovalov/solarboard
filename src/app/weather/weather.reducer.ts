@@ -81,7 +81,8 @@ function mergeDateArrays(arr1: moment.Moment[], arr2: moment.Moment[]): moment.M
     .from(new Set([...arr1
         .map(day => day.unix()),
       ...arr2
-        .map(day => day.unix())]))
+        .map(day => day.unix())]
+      .sort()))
     .map(day => moment.unix(day));
 }
 
