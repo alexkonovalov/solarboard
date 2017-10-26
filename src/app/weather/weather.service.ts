@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/delay';
 
 import { WeatherInfo, WeatherAxis } from './weather.model';
 
@@ -125,6 +126,7 @@ export class WeatherService {
       .get(`${API_URL}?lon=${COORDS.Lng}&lat=${COORDS.Lat}&apikey=${API_KEY}&var=${axis}&csv=true&count=${NUMBER_OF_ROWS}`, {
           responseType: 'text'
       }) */
+      .delay(5000)
       .map((res: string) => {
         const rows = res
           .replace(/['"]+/g, '')

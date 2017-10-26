@@ -4,6 +4,9 @@
       <h1 class="main-heading">Weather Forecast</h1> 
     </div>
   </div>
+  <div *ngIf="isLoading" class="row justify-content-center align-items-center">
+      <mat-spinner></mat-spinner>
+  </div>
   <table class="table">
       <thead>
           <tr>
@@ -24,3 +27,4 @@
       </tr>
     </tbody>
   </table>
+</div>
