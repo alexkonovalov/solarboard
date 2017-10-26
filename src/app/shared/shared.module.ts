@@ -18,6 +18,8 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 
+import pipes from './pipes';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import {
     MatInputModule,
     MatProgressSpinnerModule
   ],
+  declarations: pipes,
   exports: [
     CommonModule,
     MatButtonModule,
@@ -53,7 +56,8 @@ import {
     MatListModule,
     MatTabsModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ...pipes
   ]
 })
 export class SharedModule {}

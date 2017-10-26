@@ -8,7 +8,7 @@
       <thead>
           <tr>
             <th class="day"></th>
-            <th *ngFor="let time of times; let idx = index" [class.even]="idx % 2 === 0">{{ time | date: 'shortTime'}}</th>
+            <th *ngFor="let time of times; let idx = index" [class.even]="idx % 2 === 0">{{ time | momentUtc | momentFormat : 'HH:mm'}}</th>
           </tr>
         </thead>
     <tbody>

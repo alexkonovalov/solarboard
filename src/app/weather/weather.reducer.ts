@@ -68,11 +68,11 @@ export const selectorWeather = state => state.weather;
 
 function getDayInfos(infos: WeatherInfo[]): {value: number, day: moment.Moment, time: moment.Moment}[] {
   return infos
-    .map(info => ({value: info.value, date: moment(info.time)}))
+    .map(info => ({value: info.value, date: moment.utc(info.time)}))
     .map(info => ({
       value: info.value,
       day: info.date.clone().startOf('day'),
-      time: moment(info.date.diff(info.date.clone().startOf('day')))
+      time: moment.utc(info.date.diff(info.date.clone().startOf('day')))
     }));
 }
 
@@ -83,7 +83,7 @@ function mergeDateArrays(arr1: moment.Moment[], arr2: moment.Moment[]): moment.M
       ...arr2
         .map(day => day.unix())]
       .sort()))
-    .map(day => moment.unix(day));
+    .map(day => moment.utc(moment.unix(day)));
 }
 
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
