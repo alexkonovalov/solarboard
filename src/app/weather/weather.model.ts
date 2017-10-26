@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 
+export const STORE_SUBSET_KEY = 'WEATHER';
+
 export interface WeatherInfo {
   time: string;
   value: number;

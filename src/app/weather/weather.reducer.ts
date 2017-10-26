@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { WeatherInfo, WeatherState, WeatherDictionary } from './weather.model';
+import { WeatherInfo, WeatherState, WeatherDictionary, STORE_SUBSET_KEY } from './weather.model';
 import { WeatherActionTypes, ACTION_KEYS } from './weather.actions';
 
 export const initialState: WeatherState = {
@@ -12,7 +12,7 @@ export const initialState: WeatherState = {
   AllTimes: []
 };
 
-const rootSelector = state => state.weather as WeatherState;
+const rootSelector = state => state[STORE_SUBSET_KEY] as WeatherState;
 
 export const weatherSelector = state => rootSelector(state).Weather;
 export const daysSelector = state => rootSelector(state).AllDays;
