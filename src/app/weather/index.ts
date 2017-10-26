@@ -1,2 +1,2 @@
 export * from './weather.module';
-export { WeatherComponent } from './weather.component'
+export { WeatherComponent } from './view/weather.component'

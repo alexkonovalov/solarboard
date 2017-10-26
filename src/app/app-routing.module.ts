@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AboutComponent } from './views';
 import { PowerboardComponent } from './powerboard';
-import { WeatherComponent } from './weather/weather.component';
+import { WeatherComponent } from './weather';
 
 
 const routes: Routes = [

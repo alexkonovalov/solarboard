@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@app/shared';
 
-import { WeatherComponent } from './weather.component';
+import { WeatherComponent } from './view/weather.component';
 import { weatherReducer } from './weather.reducer';
 import { WeatherEffects } from './weather.effects';
 import { WeatherService } from './weather.service';

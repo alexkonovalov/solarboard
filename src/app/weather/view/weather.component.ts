@@ -9,10 +9,10 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as moment from 'moment';
 
-import { selectorWeather } from './weather.reducer';
-import { actionRetrieveWeather } from './weather.actions';
-import { WeatherService } from './weather.service';
-import { WeatherState, WeatherDictionary, WeatherInfo } from './weather.model';
+import { selectorWeather } from './../weather.reducer';
+import { actionRetrieveWeather } from './../weather.actions';
+import { WeatherService } from './../weather.service';
+import { WeatherState, WeatherDictionary, WeatherInfo } from './../weather.model';
 
 @Component({
   selector: 'slrb-weather',

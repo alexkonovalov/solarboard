@@ -4,7 +4,7 @@
       <h1 class="main-heading">Weather Forecast</h1> 
     </div>
   </div>
-  <div class="row justify-content-center align-items-center " [ngClass]="animateOnRouteEnter">
+  <div class="row justify-content-center align-items-center ">
       <mat-spinner *ngIf="isLoading" class="temp-status"></mat-spinner>
       <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x temp-status" aria-hidden="true"></i>
   </div>
