@@ -9,7 +9,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as moment from 'moment';
 
-import { actionRetrieveWeather, selectorWeather } from './weather.reducer';
+import { selectorWeather } from './weather.reducer';
+import { actionRetrieveWeather } from './weather.actions';
 import { WeatherService } from './weather.service';
 import { WeatherState, WeatherDictionary, WeatherInfo } from './weather.model';
 

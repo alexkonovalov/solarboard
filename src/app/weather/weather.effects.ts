@@ -18,7 +18,7 @@ import {
   ACTION_KEYS,
   actionRetrieveWeatherSuccess,
   actionCloudnessSuccess
-} from './weather.reducer';
+} from './weather.actions';
 import {
   WeatherAxis
 } from './weather.model';
