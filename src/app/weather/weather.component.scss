@@ -5,7 +5,7 @@
   margin: 20px 0 10px 0;
 }
 
-.status-placeholder {
+.temp-status {
   margin-top: 60px;
 }
 
@@ -38,11 +38,9 @@ td {
   }
   &.cell-derary {
     background-color: rgba(255, 255, 0, 0.3);
-    color: #FFF;
   }
   &.cell-dark {
     background-color: #000000;
-    color: #FFF;
   }
 
   .flux, .cloud {
@@ -64,7 +62,7 @@ td {
   }
 
   td {
-    .flux, cloud {
+    .flux, .cloud {
       font-size: smaller;
     }
   }

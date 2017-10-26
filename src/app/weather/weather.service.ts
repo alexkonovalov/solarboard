@@ -8,7 +8,7 @@ import 'rxjs/add/operator/delay';
 import { WeatherInfo, WeatherAxis } from './weather.model';
 
 const API_URL = 'http://api.planetos.com/v1/datasets/bom_access-g_global_40km/point';
-const API_KEY = 'abra' + 'bcf346da22c74648981870b20fb722b7';
+const API_KEY = 'bcf346da22c74648981870b20fb722b7';
 const COORDS = { Lat : 59.4370, Lng: 24.7536 };
 const NUMBER_OF_ROWS = 50;
 
@@ -121,11 +121,11 @@ export class WeatherService {
   constructor(private httpClient: HttpClient) {}
 
   retrieveWeather(axis: WeatherAxis): Observable<WeatherInfo[]> {
-    return this.httpClient/*(axis === WeatherAxis.Clowdness ? Observable.of(mockRespClouds) : Observable.of(mockRespFlux))*/
-      .get(`${API_URL}?lon=${COORDS.Lng}&lat=${COORDS.Lat}&apikey=${API_KEY}&var=${axis}&csv=true&count=${NUMBER_OF_ROWS}`, {
+    return (axis === WeatherAxis.Clowdness ? Observable.of(mockRespClouds) : Observable.of(mockRespFlux))
+       /*this.httpClient.get(`${API_URL}?lon=${COORDS.Lng}&lat=${COORDS.Lat}&apikey=${API_KEY}&var=${axis}&csv=true&count=${NUMBER_OF_ROWS}`, {
           responseType: 'text'
-      })
-      .delay(5000)
+      })*/
+      .delay(500)
       .map((res: string) => {
         const rows = res
           .replace(/['"]+/g, '')

@@ -4,11 +4,11 @@
       <h1 class="main-heading">Weather Forecast</h1> 
     </div>
   </div>
-  <div class="row justify-content-center align-items-center status-placeholder">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
-      <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x" aria-hidden="true"></i>
+  <div class="row justify-content-center align-items-center " [ngClass]="animateOnRouteEnter">
+      <mat-spinner *ngIf="isLoading" class="temp-status"></mat-spinner>
+      <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x temp-status" aria-hidden="true"></i>
   </div>
-  <table class="table">
+  <table class="table" *ngIf="!isLoading && !isError">
       <thead>
           <tr>
             <th class="day"></th>
@@ -19,10 +19,10 @@
       <tr *ngFor="let day of days">
          <td><div class="day">{{ day | date: 'shortDate' }}</div></td>
          <td *ngFor="let time of times; let idx = index" 
-              [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(weatherInfo[day.toISOString()][time.toISOString()])]">
-            <div  *ngIf="weatherInfo[day.toISOString()][time.toISOString()]">
-              <div class="flux">{{weatherInfo[day.toISOString()][time.toISOString()].Flux | number:'0.1-1'}}</div>
-              <div class="cloud">/{{weatherInfo[day.toISOString()][time.toISOString()].Cloud | number:'0.1-1'}}</div>
+              [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(GetWeatherInfo(day, time))]">
+            <div  *ngIf="GetWeatherInfo(day, time)">
+              <div class="flux">{{GetWeatherInfo(day, time).Flux | number:'0.1-1'}}</div>
+              <div class="cloud" *ngIf="GetWeatherInfo(day, time).Cloud">/ {{GetWeatherInfo(day, time).Cloud | number:'0.1-1'}}</div>
             </div>
         </td>
       </tr>

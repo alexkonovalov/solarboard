@@ -49,6 +49,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  GetWeatherInfo(day: moment.Moment, time: moment.Moment) {
+    return this.weatherInfo[day.toISOString()][time.toISOString()];
+  }
+
   GetClassName(info: { Flux: number }) {
     if (!info) {
       return '';
