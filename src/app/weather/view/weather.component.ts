@@ -9,7 +9,14 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as moment from 'moment';
 
-import { selectorWeather } from './../weather.reducer';
+import {
+  weatherSelector,
+  daysSelector,
+  isErrorSelector,
+  timesSelector,
+  isLoadingSelector
+} from './../weather.reducer';
+
 import { actionRetrieveWeather } from './../weather.actions';
 import { WeatherService } from './../weather.service';
 import { WeatherState, WeatherDictionary, WeatherInfo } from './../weather.model';
@@ -31,15 +38,39 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-    .select(state => state.weather as WeatherState)
-    .takeUntil(this.unsubscribe$)
-    .subscribe(weather => {
-      this.weatherInfo = weather.Weather;
-      this.days = weather.AllDays;
-      this.times = weather.AllTimes;
-      this.isLoading = weather.IsCloudsLoading || weather.IsFluxLoading;
-      this.isError = weather.IsError;
-    });
+      .select(weatherSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(weather => {
+        this.weatherInfo = weather;
+      });
+
+    this.store
+      .select(daysSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(days => {
+        this.days = days;
+      });
+
+    this.store
+      .select(timesSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(times => {
+        this.times = times;
+      });
+
+    this.store
+      .select(isLoadingSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(isLoading => {
+        this.isLoading = isLoading;
+      });
+
+    this.store
+      .select(isErrorSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(isError => {
+        this.isError = isError;
+      });
 
      this.store.dispatch(actionRetrieveWeather());
   }
@@ -79,10 +110,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
       return 'cell-dark';
     }
 
-    return info.Flux > 100 ?
-      'cell-bright' :
-    info.Flux > 30 ?
-      'cell-average' :
-      'cell-dark';
+    return '';
   }
 }

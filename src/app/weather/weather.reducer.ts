@@ -12,7 +12,13 @@ export const initialState: WeatherState = {
   AllTimes: []
 };
 
-export const selectorWeather = state => state.weather;
+const rootSelector = state => state.weather as WeatherState;
+
+export const weatherSelector = state => rootSelector(state).Weather;
+export const daysSelector = state => rootSelector(state).AllDays;
+export const timesSelector = state => rootSelector(state).AllTimes;
+export const isLoadingSelector = state => rootSelector(state).IsCloudsLoading || rootSelector(state).IsFluxLoading;
+export const isErrorSelector = state => rootSelector(state).IsError;
 
 export function weatherReducer(state: WeatherState = initialState, action: WeatherActionTypes): WeatherState {
   switch (action.type) {

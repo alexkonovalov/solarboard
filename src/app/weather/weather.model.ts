@@ -23,8 +23,6 @@ export class WeatherState {
   IsCloudsLoading: boolean;
   IsFluxLoading: boolean;
   IsError: boolean;
-  Clouds?: WeatherInfo[];
-  Flux?: WeatherInfo[];
   Weather: WeatherDictionary;
   AllDays: moment.Moment[];
   AllTimes: moment.Moment[];
