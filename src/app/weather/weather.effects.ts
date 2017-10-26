@@ -12,12 +12,14 @@ import { Action } from '@app/core';
 
 import {
   RetrieveFluxActionSuccess,
+  RetrieveFluxActionFail,
   RetrieveCloudnessActionSuccess,
-  RetrieveWeatherActionFail,
-  actionWeatherFail,
+  RetrieveCloudnessActionFail,
+  actionRetrieveCloudnessFail,
+  actionRetrieveFluxFail,
   ACTION_KEYS,
-  actionRetrieveWeatherSuccess,
-  actionCloudnessSuccess
+  actionRetrieveFluxSuccess,
+  actionRetrieveCloudnessSuccess
 } from './weather.actions';
 import {
   WeatherAxis
@@ -33,7 +35,7 @@ export class WeatherEffects {
   ) {}
 
   @Effect(/* {dispatch: false} */)
-  retrieveClowds(): Observable<RetrieveCloudnessActionSuccess|RetrieveWeatherActionFail> {
+  retrieveClowds(): Observable<RetrieveCloudnessActionSuccess|RetrieveCloudnessActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
       .do(action => {
@@ -43,15 +45,16 @@ export class WeatherEffects {
         return this.weatherService
           .retrieveWeather(WeatherAxis.Clowdness)
           .do(weather => console.log('***ABOUT TO CALL CLOUDNESS SUCCESS', weather))
-          .map(weather => actionCloudnessSuccess(weather))
-          .catch(err =>
-            Observable.of(actionWeatherFail('err'))
-          );
+          .map(weather => actionRetrieveCloudnessSuccess(weather))
+          .catch(err => {
+            alert(err.message);
+            return Observable.of(actionRetrieveCloudnessFail('err'));
+          });
       });
   }
 
   @Effect(/* {dispatch: false} */)
-  retrieveWeather(): Observable<RetrieveFluxActionSuccess|RetrieveWeatherActionFail> {
+  retrieveWeather(): Observable<RetrieveFluxActionSuccess|RetrieveFluxActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
       .do(action => {
@@ -61,10 +64,11 @@ export class WeatherEffects {
         return this.weatherService
           .retrieveWeather(WeatherAxis.SolarFlux)
           .do(weather => console.log('***ABOUT TO CALL FLUX SUCCESS', weather))
-          .map(weather => actionRetrieveWeatherSuccess(weather))
-          .catch(err =>
-            Observable.of(actionWeatherFail('err'))
-          );
+          .map(weather => actionRetrieveFluxSuccess(weather))
+          .catch(err => {
+            alert(err.message);
+            return Observable.of(actionRetrieveFluxFail('err'));
+          });
       });
   }
 }

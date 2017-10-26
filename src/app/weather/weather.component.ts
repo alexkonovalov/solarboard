@@ -25,6 +25,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   days: moment.Moment[];
   times: moment.Moment[];
   isLoading: boolean;
+  isError: boolean;
 
   constructor(public store: Store<any>, private weatherService: WeatherService) {}
 
@@ -37,6 +38,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
       this.days = weather.AllDays;
       this.times = weather.AllTimes;
       this.isLoading = weather.IsCloudsLoading || weather.IsFluxLoading;
+      this.isError = weather.IsError;
     });
 
      this.store.dispatch(actionRetrieveWeather());

@@ -22,7 +22,7 @@ export interface WeatherDictionary {
 export class WeatherState {
   IsCloudsLoading: boolean;
   IsFluxLoading: boolean;
-  Error?: any;
+  IsError: boolean;
   Clouds?: WeatherInfo[];
   Flux?: WeatherInfo[];
   Weather: WeatherDictionary;

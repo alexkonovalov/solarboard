@@ -6,6 +6,7 @@ import { WeatherActionTypes, ACTION_KEYS } from './weather.actions';
 export const initialState: WeatherState = {
   IsCloudsLoading : false,
   IsFluxLoading: false,
+  IsError: false,
   Weather: {},
   AllDays: [],
   AllTimes: []
@@ -18,6 +19,7 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
 
     case ACTION_KEYS.WEATHER_RETRIEVE: {
       return { ...state,
+        IsError: false,
         IsFluxLoading: true,
         IsCloudsLoading: true
       };
@@ -37,6 +39,20 @@ export function weatherReducer(state: WeatherState = initialState, action: Weath
       };
     }
 
+    case ACTION_KEYS.FLUX_RETRIEVE_FAIL: {
+      return { ...state,
+        IsFluxLoading: false,
+        IsError: true
+      };
+    }
+
+    case ACTION_KEYS.CLOUDNESS_RETRIEVE_FAIL: {
+      return { ...state,
+        IsCloudsLoading: false,
+        IsError: true
+      };
+    }
+
     default:
       return state;
   }
@@ -52,7 +68,7 @@ function getDayInfos(infos: WeatherInfo[]): {value: number, day: moment.Moment, 
     }));
 }
 
-function mergeToDistinctDates(arr1: moment.Moment[], arr2: moment.Moment[]): moment.Moment[] {
+function mergeToDistinctDateTimes(arr1: moment.Moment[], arr2: moment.Moment[]): moment.Moment[] {
   return Array
     .from(new Set([...arr1
         .map(day => day.unix()),
@@ -85,7 +101,7 @@ function updateWithInfos(weatherInfos: WeatherInfo[],
 
   return { ...state,
     Weather: dates,
-    AllDays: mergeToDistinctDates(state.AllDays, dayInfos.map(dateTime => dateTime.day)),
-    AllTimes: mergeToDistinctDates(state.AllTimes, dayInfos.map(dateTime => dateTime.time))
+    AllDays: mergeToDistinctDateTimes(state.AllDays, dayInfos.map(dateTime => dateTime.day)),
+    AllTimes: mergeToDistinctDateTimes(state.AllTimes, dayInfos.map(dateTime => dateTime.time))
   };
 }
