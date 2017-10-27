@@ -1,30 +1,19 @@
 import { Action } from '@app/core';
 import { ACTION_KEYS, RetrievePowerActionSuccess } from './powerboard.action';
+import { STORE_SUBSET_KEY, PowerboardState } from './powerboard.model';
 
-export const initialState = {
+export const initialState: PowerboardState = {
+  Panels: []
 };
 
-export const SETTINGS_KEY = 'SETTINGS';
-export const SETTINGS_REQUEST_PANEL_DATA = 'SETTINGS_REQUEST_PANEL_DATA';
-export const SETTINGS_REQUEST_PANEL_DATA_SUCCESS = 'SETTINGS_REQUEST_PANEL_DATA_SUCCESS';
+const rootSelector = state => state[STORE_SUBSET_KEY] as PowerboardState;
 
-export const requestPanelSuccess = (panels: string[]) => ({
-  type: SETTINGS_REQUEST_PANEL_DATA_SUCCESS,
-  payload: panels
-});
+export const panelsSelector = state => rootSelector(state).Panels;
 
-export const requestPanelData = (payload: any) => ({
-  type: SETTINGS_REQUEST_PANEL_DATA,
-  payload: payload
-});
-
-export const selectorSettings = state => state.settings || { theme: '' };
-
-export function powerboardReducer(state = initialState, action: RetrievePowerActionSuccess) {
+export function powerboardReducer(state = initialState, action: RetrievePowerActionSuccess): PowerboardState {
   switch (action.type) {
     case ACTION_KEYS.POWER_RETRIEVE_SUCCESS:
-      console.log('settingsReduce    case ACTION_KEYS.POWER_RETRIEVE_SUCCESS:');
-      return {...state, panels: action.by };
+      return {...state, Panels: action.by };
     default:
       return state;
   }

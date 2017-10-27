@@ -5,10 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 
-import { Action, launchRequests, ACTION_KEYS } from '@app/core';
+import { Action, launchRequests } from '@app/core';
 import { PowerboardService } from './powerboard.service';
-import { SETTINGS_KEY, SETTINGS_REQUEST_PANEL_DATA, requestPanelSuccess } from './powerboard.reducer';
-import { actionRetrievePowerSuccess, RetrievePowerActionSuccess } from './powerboard.action';
+import { actionRetrievePowerSuccess, RetrievePowerActionSuccess, ACTION_KEYS } from './powerboard.action';
 
 
 @Injectable()
@@ -21,7 +20,7 @@ export class PowerboardEffects {
 
   @Effect()
   requestPanelData(): Observable<RetrievePowerActionSuccess> {
-    return this.actions$.ofType(/*ACTION_KEYS.LAUNCH_REQUESTS  */SETTINGS_REQUEST_PANEL_DATA)
+    return this.actions$.ofType(ACTION_KEYS.POWER_RETRIEVE)
       .switchMap(action => {
         console.log('!!!!requestPanelData');
         return this.service.retrievePower()

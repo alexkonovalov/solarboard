@@ -8,7 +8,6 @@ export enum ACTION_KEYS {
 
 export interface RetrievePowerAction {
     type: ACTION_KEYS.POWER_RETRIEVE;
-    by: string;
 }
 
 export interface RetrievePowerActionSuccess {
@@ -31,7 +30,6 @@ export const actionRetrievePowerFail = (by: string): RetrievePowerActionFail => 
     by
 });
 
-export const actionRetrievePower = (by: string): RetrievePowerAction => ({
-    type: ACTION_KEYS.POWER_RETRIEVE,
-    by
+export const actionRetrievePower = (): RetrievePowerAction => ({
+    type: ACTION_KEYS.POWER_RETRIEVE
 });

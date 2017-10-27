@@ -3,7 +3,8 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { selectorSettings, requestPanelData } from '../powerboard.reducer';
+import { panelsSelector } from '../powerboard.reducer';
+import { actionRetrievePower } from '../powerboard.action';
 
 @Component({
   selector: 'slrb-powerboard',
@@ -16,14 +17,14 @@ export class PowerboardComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<any>) {
     store
-      .select(state => state.settings || { panels: '' })
+      .select(panelsSelector)
       .do(state => console.log('PowerboardComponent selector subscription::', state))
       .takeUntil(this.unsubscribe$)
-      .subscribe(({ panels }) => (this.panels = panels));
+      .subscribe(panels => (this.panels = panels));
   }
 
   ngOnInit() {
-    this.store.dispatch(requestPanelData('foo'));
+    this.store.dispatch(actionRetrievePower());
   }
 
   ngOnDestroy(): void {
