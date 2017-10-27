@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
 import { panelsSelector, isErrorSelector, isLoadingSelector } from '../powerboard.reducer';
-import { actionRetrievePower } from '../powerboard.action';
+import { actionPollPower, actionPollPowerStop } from '../powerboard.action';
 
 @Component({
   selector: 'slrb-powerboard',
@@ -35,10 +35,11 @@ export class PowerboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(actionRetrievePower());
+    this.store.dispatch(actionPollPower());
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(actionPollPowerStop());
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

@@ -11,11 +11,14 @@ import { PowerboardService } from './powerboard.service';
 import {
   actionRetrievePowerSuccess,
   actionRetrievePowerFail,
+  actionRetrievePower,
   RetrievePowerActionSuccess,
   RetrievePowerActionFail,
+  RetrievePowerAction,
   ACTION_KEYS
 } from './powerboard.action';
 
+const POLL_DELAY = 2000;
 
 @Injectable()
 export class PowerboardEffects {
@@ -24,6 +27,21 @@ export class PowerboardEffects {
     private store: Store<any>,
     private service: PowerboardService
   ) {}
+
+  @Effect()
+  pollPanelDataAndStop(): Observable<RetrievePowerAction> {
+    const pollWeatherStops = this.actions$
+      .ofType(ACTION_KEYS.POWER_POLL_STOP);
+
+    const pollingStream = Observable
+      .timer(0, POLL_DELAY)
+      .takeUntil(pollWeatherStops);
+
+    return this.actions$
+      .ofType(ACTION_KEYS.POWER_POLL)
+      .switchMap(() => pollingStream)
+      .map(actionRetrievePower);
+  }
 
   @Effect()
   requestPanelData(): Observable<RetrievePowerActionSuccess | RetrievePowerActionFail> {
