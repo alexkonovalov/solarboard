@@ -2,7 +2,6 @@
 
 code {
   white-space: nowrap;
-  border-radius: 5px;
   padding: 0 8px 1px 8px;
 }
 
@@ -12,7 +11,12 @@ code {
 
 $accent: map-get($solarboard-theme, accent);
 
-code.blah {
+.myDiv {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+code.power {
     background-color: mat-color($accent);
 }
 
@@ -27,7 +31,6 @@ mat-card {
     font-size: 15px;
   }
   mat-card-subtitle {
-    min-width: 40px;
     text-align: center;
   }
 }

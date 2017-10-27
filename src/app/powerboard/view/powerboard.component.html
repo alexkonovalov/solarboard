@@ -9,10 +9,10 @@
       <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x temp-status" aria-hidden="true"></i>
   </div>
   <div class="row align-items-end" *ngIf="!isError">
-    <div *ngFor="let panel of panels" class="col-md-2" [ngClass]="animateOnRouteEnter">
+    <div *ngFor="let panel of panels" class="col-xs-4 col-md-3 col-lg-2">
       <mat-card>
-          <mat-card-title>
-              <b>PANEL {{panel.Id}}</b> <code class="blah"> {{panel.Power}}</code> <code>{{panel.Tension}}</code>
+          <mat-card-title >
+              <span class="md-headline">PANEL {{panel.Id}}</span> <code class="power"> {{panel.Power}}</code> <code>{{panel.Tension}}</code>
           </mat-card-title>
       </mat-card>
     </div>

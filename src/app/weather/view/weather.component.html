@@ -8,7 +8,7 @@
       <mat-spinner *ngIf="isLoading" class="temp-status"></mat-spinner>
       <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x temp-status" aria-hidden="true"></i>
   </div>
-  <table class="table" *ngIf="!isLoading && !isError">
+  <table class="animateOnRouteEnter table" *ngIf="!isLoading && !isError">
       <thead>
           <tr>
             <th class="day"></th>
