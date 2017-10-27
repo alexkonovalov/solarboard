@@ -68,8 +68,7 @@ export class PowerboardService {
   retrievePower(): Observable<PowerInfo[]> {
 
     return Observable.of(mockResp).delay(1500)
-      .map(row => row as PowerInfo[])
-      .do(plants => console.log('***plants', plants));
+      .map(row => row as PowerInfo[]);
       /* this.httpClient
       .get(API_URL, { responseType: 'text' })
       .map((res: string) => JSON.parse(res.replace('//', ''))) */

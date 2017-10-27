@@ -46,7 +46,6 @@ export class PowerboardEffects {
   requestPanelData(): Observable<RetrievePowerActionSuccess | RetrievePowerActionFail> {
     return this.actions$.ofType(ACTION_KEYS.POWER_RETRIEVE)
       .switchMap(action => {
-        console.log('!!!!requestPanelData');
         return this.service.retrievePower()
           .map(plants => actionRetrievePowerSuccess(plants))
           .catch(err => {
