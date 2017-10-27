@@ -20,7 +20,7 @@
          <td><div class="day">{{ day | date: 'shortDate' }}</div></td>
          <td *ngFor="let time of times; let idx = index" 
               [ngClass]="[idx % 2 === 0 ? 'even' : '', GetClassName(GetWeatherInfo(day, time))]">
-            <div  *ngIf="GetWeatherInfo(day, time)">
+            <div *ngIf="GetWeatherInfo(day, time)">
               <div class="flux">{{GetWeatherInfo(day, time).Flux | number:'0.1-1'}}</div>
               <div class="cloud" *ngIf="GetWeatherInfo(day, time).Cloud">/ {{GetWeatherInfo(day, time).Cloud | number:'0.1-1'}}</div>
             </div>

@@ -1,5 +1,8 @@
 @import 'styles-variables';
 
+$accent: map-get($solarboard-theme, accent);;
+$primary: map-get($solarboard-theme, primary);
+
 .main-heading {
   text-transform: uppercase;
   margin: 20px 0 10px 0;
@@ -12,10 +15,13 @@
 .table td,
 .table th {
     border: 0;
-    text-align: center; 
+    text-align: center;
+  
 }
 
-td {
+.table td {
+  background-color: mat-color($primary);
+
   &.cell-extreme {
     background-color: #FF0;
     color: #000;
@@ -40,9 +46,9 @@ td {
     background-color: rgba(255, 255, 0, 0.3);
   }
   &.cell-dark {
-    background-color: #000000;
+    background-color: #000;
   }
-
+  
   .flux, .cloud {
     font-weight:600;
   }

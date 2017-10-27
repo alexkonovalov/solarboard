@@ -133,7 +133,8 @@ export class WeatherService {
         rows.shift(); // todo crop the string instead. better for performance
         return rows
           .map((row: string) => row.split(','))
-          .map(row => ({ time: row[3], time2: moment(row[3]), value: Number.parseFloat(row[4])}))
+          .map(row => ({ time: row[3], value: Number.parseFloat(row[4])}))
+          .filter(info => info.value >= 0);
       });
   }
 }
