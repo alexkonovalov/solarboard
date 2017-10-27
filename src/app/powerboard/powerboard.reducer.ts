@@ -1,4 +1,3 @@
-import { Action } from '@app/core';
 import { ACTION_KEYS, PowerboardActionTypes } from './powerboard.action';
 import { STORE_SUBSET_KEY, PowerboardState } from './powerboard.model';
 

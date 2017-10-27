@@ -7,8 +7,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/timer';
 
-import { Action } from '@app/core';
-
 import {
   ACTION_KEYS,
   RetrieveFluxActionSuccess,
@@ -22,7 +20,8 @@ import {
   actionRetrieveFluxSuccess,
   actionRetrieveCloudnessSuccess,
   actionRetrieveWeather,
-  actionPollWeather
+  actionPollWeather,
+  WeatherActionTypes
 } from './weather.actions';
 import {
   WeatherAxis
@@ -35,7 +34,7 @@ const WEATHER_POLL_DELAY = 2000;
 @Injectable()
 export class WeatherEffects {
   constructor(
-    private actions$: Actions<Action>,
+    private actions$: Actions<WeatherActionTypes>,
     private weatherService: WeatherService
   ) {}
 

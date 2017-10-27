@@ -6,7 +6,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 
-import { Action, launchRequests } from '@app/core';
 import { PowerboardService } from './powerboard.service';
 import {
   actionRetrievePowerSuccess,
@@ -15,6 +14,7 @@ import {
   RetrievePowerActionSuccess,
   RetrievePowerActionFail,
   RetrievePowerAction,
+  PowerboardActionTypes,
   ACTION_KEYS
 } from './powerboard.action';
 
@@ -23,8 +23,7 @@ const POLL_DELAY = 2000;
 @Injectable()
 export class PowerboardEffects {
   constructor(
-    private actions$: Actions<Action>,
-    private store: Store<any>,
+    private actions$: Actions<PowerboardActionTypes>,
     private service: PowerboardService
   ) {}
 

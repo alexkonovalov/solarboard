@@ -6,7 +6,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
-import {  routerTransition, launchRequests } from '@app/core';
+import { routerTransition } from '@app/core';
 import { environment as env } from '@env/environment';
 
 const GOOGLE_MATERIAL_THEME = 'black-theme';
@@ -40,8 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.overlayContainer.getContainerElement().classList.add(GOOGLE_MATERIAL_THEME);
-
-    this.store.dispatch(launchRequests());
   }
 
   ngOnDestroy(): void {
