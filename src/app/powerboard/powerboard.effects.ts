@@ -18,7 +18,7 @@ import {
   ACTION_KEYS
 } from './powerboard.action';
 
-const POLL_DELAY = 2000;
+const POLL_DELAY = 10 * 1000;
 
 @Injectable()
 export class PowerboardEffects {

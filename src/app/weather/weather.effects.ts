@@ -29,7 +29,7 @@ import {
 
 import { WeatherService } from './weather.service';
 
-const WEATHER_POLL_DELAY = 20000;
+const WEATHER_POLL_DELAY = 5 * 60 * 1000;
 
 @Injectable()
 export class WeatherEffects {
