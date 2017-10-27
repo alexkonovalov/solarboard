@@ -24,7 +24,7 @@ export const routerTransition = trigger('routerTransition', [
         [
           style({ transform: 'translateY(-3%)', opacity: 0 }),
           animate(
-            '0.4s 0.1s ease-in-out',
+            '0.2s 0.1s ease-in-out',
             style({ transform: 'translateY(0%)', opacity: 1 })
           )
         ],

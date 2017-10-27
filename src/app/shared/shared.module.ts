@@ -18,7 +18,8 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 
-import pipes from './pipes';
+import { MomentFormatPipe, MomentUtcPipe} from './pipes';
+const pipes = [MomentFormatPipe, MomentUtcPipe];
 
 @NgModule({
   imports: [
@@ -28,15 +29,9 @@ import pipes from './pipes';
     MatIconModule,
     MatTooltipModule,
     MatMenuModule,
-    MatSelectModule,
     MatCardModule,
     MatChipsModule,
     MatSidenavModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatListModule,
-    MatTabsModule,
-    MatInputModule,
     MatProgressSpinnerModule
   ],
   declarations: pipes,
@@ -47,15 +42,9 @@ import pipes from './pipes';
     MatIconModule,
     MatTooltipModule,
     MatMenuModule,
-    MatSelectModule,
     MatCardModule,
     MatChipsModule,
     MatSidenavModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatListModule,
-    MatTabsModule,
-    MatInputModule,
     MatProgressSpinnerModule,
     ...pipes
   ]
