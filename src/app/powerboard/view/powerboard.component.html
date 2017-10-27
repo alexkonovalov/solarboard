@@ -5,10 +5,10 @@
     </div>
   </div>
   <div class="row justify-content-center align-items-center">
-      <mat-spinner *ngIf="isLoading" class="temp-status"></mat-spinner>
+      <mat-spinner *ngIf="panels.length === 0 && isLoading" class="temp-status"></mat-spinner>
       <i *ngIf="!isLoading && isError" class="fa fa-exclamation-triangle fa-5x temp-status" aria-hidden="true"></i>
   </div>
-  <div class="row align-items-end" *ngIf="!isLoading && !isError">
+  <div class="row align-items-end" *ngIf="!isError">
     <div *ngFor="let panel of panels" class="col-md-2" [ngClass]="animateOnRouteEnter">
       <mat-card>
           <mat-card-title>
