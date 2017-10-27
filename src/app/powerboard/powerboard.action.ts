@@ -17,7 +17,6 @@ export interface RetrievePowerActionSuccess {
 
 export interface RetrievePowerActionFail {
   type: ACTION_KEYS.POWER_RETRIEVE_ERROR;
-  by: string;
 }
 
 export const actionRetrievePowerSuccess = (by: PowerInfo[]): RetrievePowerActionSuccess => ({
@@ -25,11 +24,14 @@ export const actionRetrievePowerSuccess = (by: PowerInfo[]): RetrievePowerAction
   by
 });
 
-export const actionRetrievePowerFail = (by: string): RetrievePowerActionFail => ({
+export const actionRetrievePowerFail = (): RetrievePowerActionFail => ({
   type: ACTION_KEYS.POWER_RETRIEVE_ERROR,
-  by
 });
 
 export const actionRetrievePower = (): RetrievePowerAction => ({
   type: ACTION_KEYS.POWER_RETRIEVE
 });
+
+export type PowerboardActionTypes = RetrievePowerAction
+| RetrievePowerActionSuccess
+| RetrievePowerActionFail;

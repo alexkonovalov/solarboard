@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { panelsSelector } from '../powerboard.reducer';
+import { panelsSelector, isErrorSelector, isLoadingSelector } from '../powerboard.reducer';
 import { actionRetrievePower } from '../powerboard.action';
 
 @Component({
@@ -14,13 +14,24 @@ import { actionRetrievePower } from '../powerboard.action';
 export class PowerboardComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject<void>();
   panels: any[];
+  isLoading: boolean;
+  isError: boolean;
 
   constructor(private store: Store<any>) {
     store
       .select(panelsSelector)
-      .do(state => console.log('PowerboardComponent selector subscription::', state))
       .takeUntil(this.unsubscribe$)
       .subscribe(panels => (this.panels = panels));
+
+    store
+      .select(isErrorSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(isError => (this.isError = isError));
+
+    store
+      .select(isLoadingSelector)
+      .takeUntil(this.unsubscribe$)
+      .subscribe(isLoading => (this.isLoading = isLoading));
   }
 
   ngOnInit() {

@@ -8,4 +8,6 @@ export interface PowerInfo {
 
 export interface PowerboardState {
   Panels: PowerInfo[];
+  IsLoading: boolean;
+  IsError: boolean;
 }

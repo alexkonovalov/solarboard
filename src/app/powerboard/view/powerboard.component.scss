@@ -6,6 +6,10 @@ code {
   padding: 0 8px 1px 8px;
 }
 
+.temp-status {
+  margin-top: $status-margin;
+}
+
 $accent: map-get($solarboard-theme, accent);
 
 code.blah {
