@@ -7,12 +7,17 @@ export enum ACTION_KEYS {
   FLUX_RETRIEVE_SUCCESS = 'FLUX_RETRIEVE_SUCCESS',
   CLOUDNESS_RETRIEVE_SUCCESS = 'CLOUDNESS_RETRIEVE_SUCCESS',
   FLUX_RETRIEVE_FAIL = 'FLUX_RETRIEVE_ERROR',
-  CLOUDNESS_RETRIEVE_FAIL = 'CLOUDNESS_RETRIEVE_FAIL'
+  CLOUDNESS_RETRIEVE_FAIL = 'CLOUDNESS_RETRIEVE_FAIL',
+  POLL_WEATHER = 'WEATHER_POLL',
+  POLL_WEATHER_STOP = 'WEATHER_POLL_STOP'
 }
 
 export interface RetrieveWeatherAction {
   type: ACTION_KEYS.WEATHER_RETRIEVE;
-  by: string;
+}
+
+export interface StopPollingAction {
+  type: ACTION_KEYS.POLL_WEATHER_STOP;
 }
 
 export interface RetrieveFluxActionSuccess {
@@ -35,9 +40,17 @@ export interface RetrieveFluxActionFail {
   by: string;
 }
 
+export interface PollWeatherAction {
+  type: ACTION_KEYS.POLL_WEATHER;
+}
+
 export const actionRetrieveFluxSuccess = (by: WeatherInfo[]): RetrieveFluxActionSuccess => ({
   type: ACTION_KEYS.FLUX_RETRIEVE_SUCCESS,
   by
+});
+
+export const actionPollWeatherStop = (): StopPollingAction => ({
+  type: ACTION_KEYS.POLL_WEATHER_STOP,
 });
 
 export const actionRetrieveCloudnessSuccess = (by: WeatherInfo[]): RetrieveCloudnessActionSuccess => ({
@@ -55,7 +68,11 @@ export const actionRetrieveCloudnessFail = (by: string): RetrieveCloudnessAction
   by
 });
 
-export const actionRetrieveWeather = () => ({
+export const actionPollWeather = (): PollWeatherAction => ({
+  type: ACTION_KEYS.POLL_WEATHER
+});
+
+export const actionRetrieveWeather = (): RetrieveWeatherAction => ({
   type: ACTION_KEYS.WEATHER_RETRIEVE
 });
 
@@ -63,4 +80,6 @@ export type WeatherActionTypes = RetrieveWeatherAction
   | RetrieveFluxActionSuccess
   | RetrieveFluxActionFail
   | RetrieveCloudnessActionSuccess
-  | RetrieveCloudnessActionFail;
+  | RetrieveCloudnessActionFail
+  | PollWeatherAction
+  | StopPollingAction;

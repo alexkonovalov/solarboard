@@ -1,12 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
 import { Store } from '@ngrx/store';
 import { Subject,  } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
 import * as moment from 'moment';
 
 import {
@@ -17,7 +13,7 @@ import {
   isLoadingSelector
 } from './../weather.reducer';
 
-import { actionRetrieveWeather } from './../weather.actions';
+import { actionPollWeather, actionPollWeatherStop } from './../weather.actions';
 import { WeatherService } from './../weather.service';
 import { WeatherState, WeatherDictionary, WeatherInfo } from './../weather.model';
 
@@ -72,10 +68,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
         this.isError = isError;
       });
 
-     this.store.dispatch(actionRetrieveWeather());
+     this.store.dispatch(actionPollWeather());
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(actionPollWeatherStop());
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

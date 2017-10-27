@@ -2,30 +2,35 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/timer';
 
 import { Action } from '@app/core';
 
 import {
+  ACTION_KEYS,
   RetrieveFluxActionSuccess,
   RetrieveFluxActionFail,
+  RetrieveWeatherAction,
+  PollWeatherAction,
   RetrieveCloudnessActionSuccess,
   RetrieveCloudnessActionFail,
   actionRetrieveCloudnessFail,
   actionRetrieveFluxFail,
-  ACTION_KEYS,
   actionRetrieveFluxSuccess,
-  actionRetrieveCloudnessSuccess
+  actionRetrieveCloudnessSuccess,
+  actionRetrieveWeather,
+  actionPollWeather
 } from './weather.actions';
 import {
   WeatherAxis
 } from './weather.model';
 
 import { WeatherService } from './weather.service';
+
+const WEATHER_POLL_DELAY = 2000;
 
 @Injectable()
 export class WeatherEffects {
@@ -34,17 +39,28 @@ export class WeatherEffects {
     private weatherService: WeatherService
   ) {}
 
-  @Effect(/* {dispatch: false} */)
+  @Effect()
+  pollWeatherDelayAndStop(): Observable<RetrieveWeatherAction> {
+    const pollWeatherStops = this.actions$
+      .ofType(ACTION_KEYS.POLL_WEATHER_STOP);
+
+    const pollingStream = Observable
+      .timer(0, WEATHER_POLL_DELAY)
+      .takeUntil(pollWeatherStops);
+
+    return this.actions$
+      .ofType(ACTION_KEYS.POLL_WEATHER)
+      .switchMap(() => pollingStream)
+      .map(actionRetrieveWeather);
+  }
+
+  @Effect()
   retrieveClowds(): Observable<RetrieveCloudnessActionSuccess|RetrieveCloudnessActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
-      .do(action => {
-        console.log('WEATHER_RETRIEVE, ACTION_KEYS.LAUNCH_REQUESTS', action);
-      })
       .switchMap(action => {
         return this.weatherService
           .retrieveWeather(WeatherAxis.Clowdness)
-          .do(weather => console.log('***ABOUT TO CALL CLOUDNESS SUCCESS', weather))
           .map(weather => actionRetrieveCloudnessSuccess(weather))
           .catch(err => {
             alert(err.message);
@@ -53,17 +69,13 @@ export class WeatherEffects {
       });
   }
 
-  @Effect(/* {dispatch: false} */)
+  @Effect()
   retrieveWeather(): Observable<RetrieveFluxActionSuccess|RetrieveFluxActionFail> {
     return this.actions$
       .ofType(ACTION_KEYS.WEATHER_RETRIEVE)
-      .do(action => {
-        console.log('WEATHER_RETRIEVE, ACTION_KEYS.LAUNCH_REQUESTS', action);
-      })
       .switchMap(action => {
         return this.weatherService
           .retrieveWeather(WeatherAxis.SolarFlux)
-          .do(weather => console.log('***ABOUT TO CALL FLUX SUCCESS', weather))
           .map(weather => actionRetrieveFluxSuccess(weather))
           .catch(err => {
             alert(err.message);
